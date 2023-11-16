@@ -7,8 +7,8 @@
         <link rel="icon" href="src/icon.png" type="image/png">
         <script>
             
-            function showBookingDetails(date, name, package,bookid) {
-                alert("Date: " + date + "\nBook ID: " + bookid + "\nName: " + name + "\nPackage: " + package);
+            function showBookingDetails(date, name, package,bookid,price) {
+                alert("Date: " + date + "\nBook ID: " + bookid + "\nName: " + name + "\nPackage: " + package+ "\nPrice: RM " + price);
             }
         </script>
     </head>
@@ -29,12 +29,12 @@
         {
             $bookedDates = array();
 
-            $sql = "SELECT book_date, name, package, bookid FROM bookings";
+            $sql = "SELECT book_date, name, package, bookid, price FROM bookings";
             $result = $conn->query($sql);
 
             if ($result->num_rows > 0) {
                 while ($row = $result->fetch_assoc()) {
-                    $bookedDates[$row['book_date']] = array('name' => $row['name'], 'package' => $row['package'], 'bookid' => $row['bookid']);
+                    $bookedDates[$row['book_date']] = array('name' => $row['name'], 'package' => $row['package'], 'bookid' => $row['bookid'], 'price' => $row['price']);
                 }
             }
 
@@ -79,7 +79,7 @@
                     $currentDate = $currentYear . '-' . $currentMonth . '-' . $currentDay;
                     $class = isset($bookedDates[$currentDate]) ? 'booked' : '';
 
-                    echo "<td class='$class' onclick=\"showBookingDetails('$currentDate', '" . ($bookedDates[$currentDate]['name'] ?? '') . "', '" . ($bookedDates[$currentDate]['package'] ?? '') .  "', '" . ($bookedDates[$currentDate]['bookid'] ?? '') . "')\">$currentDay<br></td>";
+                    echo "<td class='$class' onclick=\"showBookingDetails('$currentDate', '" . ($bookedDates[$currentDate]['name'] ?? '') . "', '" . ($bookedDates[$currentDate]['package'] ?? '') .  "', '" . ($bookedDates[$currentDate]['bookid'] ?? '') .  "', '" . ($bookedDates[$currentDate]['price'] ?? '') . "')\">$currentDay<br></td>";
                 }
 
                 if ($i % 7 == 0) {
